@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Inventaris Lab FST UINSU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            colors: {
+              primary: "#0f172a",
+              secondary: "#334155",
+              accent: "#2563eb",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+      .nav-item.active {
+        background-color: #1e293b;
+        border-left: 4px solid #3b82f6;
+        color: white;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+    <!-- LOGIN PAGE -->
+    <div
+      id="login-page"
+      class="fixed inset-0 z-50 bg-slate-100 flex items-center justify-center"
+    >
+      <div
+        class="bg-white p-0 rounded-2xl shadow-2xl flex overflow-hidden max-w-4xl w-full mx-4 border border-slate-200"
+      >
+        <div
+          class="w-1/2 bg-slate-900 p-12 flex flex-col justify-center items-center text-white hidden md:flex relative"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-blue-700 to-slate-900 opacity-95"
+          ></div>
+          <div class="relative z-10 text-center">
+            <div
+              class="w-20 h-20 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20"
+            >
+              <i class="fas fa-microscope text-4xl text-blue-300"></i>
+            </div>
+            <h2
+              class="text-3xl font-black mb-2 tracking-tighter uppercase text-white"
+            >
+              SIM-STOK LAB
+            </h2>
+            <p
+              class="text-slate-300 text-sm font-light uppercase tracking-widest"
+            >
+              FST UIN SUMATERA UTARA
+            </p>
+          </div>
+        </div>
+
+        <div class="w-full md:w-1/2 p-10 bg-white flex flex-col justify-center">
+          <div class="mb-8">
+            <h3 class="text-2xl font-bold text-slate-800">Masuk Akun</h3>
+            <p class="text-slate-500 text-sm">
+              Gunakan kredensial pengelola lab.
+            </p>
+          </div>
+
+          <form
+            id="form-login"
+            onsubmit="event.preventDefault(); handleLogin();"
+          >
+            <div class="mb-4">
+              <label
+                class="block text-xs font-bold text-slate-600 uppercase mb-2"
+                >Username</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"
+                  ><i class="fas fa-user text-sm"></i
+                ></span>
+                <input
+                  type="text"
+                  id="login-username"
+                  required
+                  class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  placeholder="Username"
+                />
+              </div>
+            </div>
+            <div class="mb-6">
+              <label
+                class="block text-xs font-bold text-slate-600 uppercase mb-2"
+                >Password</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"
+                  ><i class="fas fa-lock text-sm"></i
+                ></span>
+                <input
+                  type="password"
+                  id="login-password"
+                  required
+                  class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"
+            >
+              <span>Login Ke Sistem</span>
+              <i class="fas fa-arrow-right text-xs"></i>
+            </button>
+
+            <div
+              class="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-200"
+            >
+              <p class="text-[10px] font-black text-slate-500 uppercase mb-2">
+                Informasi Akses:
+              </p>
+              <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-600">
+                <div><span class="font-bold">Laboran:</span> laboran / 123</div>
+                <div><span class="font-bold">Asisten:</span> asisten / 123</div>
+                <div>
+                  <span class="font-bold">Kepala Lab:</span> kepala / 123
+                </div>
+                <div><span class="font-bold">Admin Fak:</span> admin / 123</div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="main-app" class="hidden flex w-full h-full">
+      <!-- SIDEBAR -->
+      <aside
+        class="w-64 bg-slate-900 text-slate-300 flex flex-col shadow-2xl z-20"
+      >
+        <div
+          class="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950"
+        >
+          <i class="fas fa-flask text-blue-500 text-xl mr-3"></i>
+          <span class="font-black text-white text-lg tracking-tight uppercase"
+            >SIM-STOK</span
+          >
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 space-y-1">
+          <a
+            href="#"
+            onclick="showPage('dashboard', this)"
+            class="nav-item active flex items-center px-6 py-3 transition-colors"
+          >
+            <i class="fas fa-chart-line w-6"></i>
+            <span class="text-sm font-medium">Dashboard</span>
+          </a>
+
+          <div id="menu-input" class="hidden">
+            <p
+              class="px-6 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 mt-6"
+            >
+              Manajemen
+            </p>
+            <a
+              href="#"
+              onclick="showPage('asisten-daily', this)"
+              class="nav-item flex items-center px-6 py-3 transition-colors"
+            >
+              <i class="fas fa-clipboard-check w-6"></i>
+              <span class="text-sm font-medium">Pengecekan Harian</span>
+            </a>
+          </div>
+
+          <div id="menu-validate" class="hidden">
+            <p
+              class="px-6 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 mt-6"
+            >
+              Verifikasi
+            </p>
+            <a
+              href="#"
+              onclick="showPage('laboran-inbox', this)"
+              class="nav-item flex items-center px-6 py-3 transition-colors relative"
+            >
+              <i class="fas fa-bell w-6"></i>
+              <span class="text-sm font-medium">Laporan Masuk</span>
+              <span
+                id="badge-notif"
+                class="hidden absolute right-6 top-4 w-2 h-2 bg-red-500 rounded-full"
+              ></span>
+            </a>
+          </div>
+
+          <p
+            class="px-6 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 mt-6"
+          >
+            Basis Data
+          </p>
+          <a
+            href="#"
+            onclick="showPage('data-barang', this)"
+            class="nav-item flex items-center px-6 py-3 transition-colors"
+          >
+            <i class="fas fa-boxes w-6"></i>
+            <span class="text-sm font-medium">Data Inventaris</span>
+          </a>
+          <a
+            href="#"
+            onclick="showPage('data-supplier', this)"
+            class="nav-item flex items-center px-6 py-3 transition-colors"
+          >
+            <i class="fas fa-truck-loading w-6"></i>
+            <span class="text-sm font-medium">Data Supplier</span>
+          </a>
+
+          <div id="menu-report" class="hidden">
+            <p
+              class="px-6 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 mt-6"
+            >
+              Laporan
+            </p>
+            <a
+              href="#"
+              onclick="showPage('kepala-report', this)"
+              class="nav-item flex items-center px-6 py-3 transition-colors"
+            >
+              <i class="fas fa-file-invoice w-6"></i>
+              <span class="text-sm font-medium">Arsip Bulanan</span>
+            </a>
+          </div>
+        </nav>
+
+        <div class="p-4 bg-slate-950 border-t border-slate-800">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold"
+            >
+              <span id="initials">U</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p
+                class="text-xs font-bold text-white truncate"
+                id="display-name"
+              >
+                User
+              </p>
+              <p
+                class="text-[9px] text-blue-400 font-black uppercase tracking-tighter"
+                id="display-role"
+              >
+                Role
+              </p>
+            </div>
+            <button
+              onclick="logout()"
+              class="p-2 text-slate-500 hover:text-white transition-all"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 flex flex-col bg-slate-50 overflow-hidden">
+        <header
+          class="h-16 bg-white border-b border-slate-200 flex justify-between items-center px-8 shrink-0"
+        >
+          <h2
+            id="page-title"
+            class="text-lg font-black text-slate-800 uppercase tracking-tight"
+          >
+            Dashboard
+          </h2>
+          <div class="text-right">
+            <p
+              class="text-[9px] font-black text-slate-400 uppercase tracking-widest"
+            >
+              Fakultas Sains dan Teknologi
+            </p>
+            <p class="text-xs font-bold text-slate-600">UIN Sumatera Utara</p>
+          </div>
+        </header>
+
+        <div id="content-area" class="flex-1 overflow-y-auto p-8">
+          <!-- VIEW: DASHBOARD -->
+          <div id="view-dashboard" class="space-y-6 animate-fade-in">
+            <div
+              class="bg-indigo-600 p-8 rounded-3xl text-white flex justify-between items-center shadow-xl shadow-indigo-100"
+            >
+              <div>
+                <h3 class="text-2xl font-black mb-1">
+                  Selamat Datang, <span id="dash-user">User</span>
+                </h3>
+                <p class="text-indigo-100 text-sm opacity-80">
+                  Sistem Informasi Manajemen Inventaris Laboratorium FST UINSU.
+                </p>
+              </div>
+              <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+                <p class="text-xs font-bold opacity-70">STATUS SISTEM</p>
+                <p class="text-sm font-black">AKTIF / JANUARI 2026</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"
+              >
+                <p
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1"
+                >
+                  Total Laboratorium
+                </p>
+                <h4 class="text-3xl font-black text-slate-800">4</h4>
+              </div>
+              <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"
+              >
+                <p
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1"
+                >
+                  Aset Inventaris
+                </p>
+                <h4 class="text-3xl font-black text-slate-800" id="dash-items">
+                  0
+                </h4>
+              </div>
+              <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"
+              >
+                <p
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1"
+                >
+                  Unit Rusak
+                </p>
+                <h4 class="text-3xl font-black text-red-500" id="dash-bad">
+                  0
+                </h4>
+              </div>
+              <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"
+              >
+                <p
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1"
+                >
+                  Arsip Laporan
+                </p>
+                <h4 class="text-3xl font-black text-blue-600" id="dash-finals">
+                  0
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: DATA BARANG -->
+          <div id="view-data-barang" class="hidden animate-fade-in">
+            <div
+              class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+            >
+              <div
+                class="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center"
+              >
+                <div class="flex gap-2">
+                  <button
+                    onclick="filterLab('Semua')"
+                    class="px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100"
+                  >
+                    Semua
+                  </button>
+                  <button
+                    onclick="filterLab('Lab Network')"
+                    class="px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100"
+                  >
+                    Network
+                  </button>
+                  <button
+                    onclick="filterLab('Lab Vision')"
+                    class="px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100"
+                  >
+                    Vision
+                  </button>
+                  <button
+                    onclick="filterLab('Lab Pemrograman 1')"
+                    class="px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100"
+                  >
+                    P. Bahasa 1
+                  </button>
+                  <button
+                    onclick="filterLab('Lab Pemrograman 2')"
+                    class="px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100"
+                  >
+                    P. Bahasa 2
+                  </button>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                  <thead
+                    class="bg-slate-50 text-slate-500 uppercase text-[10px] font-black tracking-widest"
+                  >
+                    <tr>
+                      <th class="p-6">Nama Barang</th>
+                      <th class="p-6">Lokasi</th>
+                      <th class="p-6 text-center">Total</th>
+                      <th class="p-6 text-center">Kondisi</th>
+                      <th class="p-6">Supplier Terkait</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="table-barang"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: DATA SUPPLIER -->
+          <div id="view-data-supplier" class="hidden animate-fade-in">
+            <div
+              class="grid grid-cols-1 md:grid-cols-3 gap-6"
+              id="supplier-container"
+            ></div>
+          </div>
+
+          <!-- VIEW: PENGECEKAN HARIAN -->
+          <div id="view-asisten-daily" class="hidden animate-fade-in">
+            <div
+              class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-100 p-8"
+            >
+              <h3 class="text-xl font-black mb-6 flex items-center gap-3">
+                <i class="fas fa-edit text-blue-600"></i> Form Monitoring
+                Kondisi Lab
+              </h3>
+              <div class="space-y-6">
+                <select
+                  id="select-lab-check"
+                  class="w-full p-4 border rounded-xl font-bold bg-slate-50 outline-none focus:ring-2 focus:ring-blue-500"
+                  onchange="renderCheckList()"
+                >
+                  <option value="">-- Pilih Lab Yang Dicek --</option>
+                  <option value="Lab Network">Lab Network</option>
+                  <option value="Lab Vision">Lab Vision</option>
+                  <option value="Lab Pemrograman 1">
+                    Lab Pemrograman Bahasa 1
+                  </option>
+                  <option value="Lab Pemrograman 2">
+                    Lab Pemrograman Bahasa 2
+                  </option>
+                </select>
+                <div
+                  id="check-list-container"
+                  class="hidden border rounded-2xl overflow-hidden"
+                >
+                  <table class="w-full text-sm">
+                    <thead class="bg-slate-50">
+                      <tr>
+                        <th class="p-4 text-left">Item</th>
+                        <th class="p-4 text-center">Fisik</th>
+                        <th class="p-4">Kondisi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody-check" class="divide-y"></tbody>
+                  </table>
+                  <button
+                    onclick="submitDailyCheck()"
+                    class="w-full bg-slate-900 text-white py-4 font-bold uppercase tracking-widest text-xs hover:bg-black transition-all"
+                  >
+                    Kirim Laporan Ke Laboran
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW: INBOX LABORAN -->
+          <div id="view-laboran-inbox" class="hidden animate-fade-in">
+            <div
+              id="inbox-container"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6"
+            ></div>
+          </div>
+
+          <!-- VIEW: ARSIP KEPALA -->
+          <div id="view-kepala-report" class="hidden animate-fade-in">
+            <div
+              class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden"
+            >
+              <table class="w-full text-sm">
+                <thead
+                  class="bg-slate-50 text-[10px] font-black uppercase text-slate-500"
+                >
+                  <tr>
+                    <th class="p-6 text-left">Waktu Selesai</th>
+                    <th class="p-6 text-left">Lab</th>
+                    <th class="p-6 text-left">Pelapor</th>
+                    <th class="p-6 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="tbody-finals"
+                  class="divide-y divide-slate-100"
+                ></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // --- KONFIGURASI DATA ---
+      const DB_KEY_ITEMS = "uin_lab_v4_items";
+      const DB_KEY_SUPPLIERS = "uin_lab_v4_suppliers";
+      const DB_KEY_PENDING = "uin_lab_v4_pending";
+      const DB_KEY_FINALS = "uin_lab_v4_finals";
+
+      const rawSuppliers = [
+        {
+          id: 1,
+          name: "PT. Teknologi Nusantara",
+          contact: "0812-3456-7890 (Bpk. Andre)",
+          category: "Komputer & Jaringan",
+        },
+        {
+          id: 2,
+          name: "CV. Maju Jaya Meubel",
+          contact: "0813-1122-3344 (Ibu Maya)",
+          category: "Furniture Lab",
+        },
+        {
+          id: 3,
+          name: "Digital Solution Medan",
+          contact: "0852-9988-7766 (Mas Rian)",
+          category: "Elektronik & Multimedia",
+        },
+      ];
+
+      const rawItems = [
+        // LAB NETWORK
+        {
+          id: 101,
+          lab: "Lab Network",
+          name: "PC Unit (CPU)",
+          total: 39,
+          good: 39,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 102,
+          lab: "Lab Network",
+          name: "Sistem Operasi (Hidup)",
+          total: 39,
+          good: 16,
+          bad: 23,
+          supplier: "PT. Teknologi Nusantara",
+        }, // 39 total, 16 hidup (39-23)
+        {
+          id: 103,
+          lab: "Lab Network",
+          name: "Monitor",
+          total: 40,
+          good: 31,
+          bad: 9,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 104,
+          lab: "Lab Network",
+          name: "Mouse",
+          total: 29,
+          good: 29,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 105,
+          lab: "Lab Network",
+          name: "Keyboard",
+          total: 39,
+          good: 36,
+          bad: 3,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 106,
+          lab: "Lab Network",
+          name: "PSU",
+          total: 37,
+          good: 37,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 107,
+          lab: "Lab Network",
+          name: "AC",
+          total: 4,
+          good: 4,
+          bad: 0,
+          supplier: "Digital Solution Medan",
+        },
+        {
+          id: 108,
+          lab: "Lab Network",
+          name: "Cisco Switch (SG95-15)",
+          total: 1,
+          good: 1,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 109,
+          lab: "Lab Network",
+          name: "Meja Pendek",
+          total: 13,
+          good: 13,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+        {
+          id: 110,
+          lab: "Lab Network",
+          name: "Meja Panjang",
+          total: 6,
+          good: 6,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+        {
+          id: 111,
+          lab: "Lab Network",
+          name: "Kursi",
+          total: 40,
+          good: 40,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+
+        // LAB VISION
+        {
+          id: 201,
+          lab: "Lab Vision",
+          name: "Komputer Unit (Dell)",
+          total: 39,
+          good: 38,
+          bad: 1,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 202,
+          lab: "Lab Vision",
+          name: "Monitor",
+          total: 78,
+          good: 78,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 203,
+          lab: "Lab Vision",
+          name: "Mouse",
+          total: 39,
+          good: 39,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 204,
+          lab: "Lab Vision",
+          name: "Keyboard",
+          total: 39,
+          good: 39,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 205,
+          lab: "Lab Vision",
+          name: "AC",
+          total: 4,
+          good: 4,
+          bad: 0,
+          supplier: "Digital Solution Medan",
+        },
+        {
+          id: 206,
+          lab: "Lab Vision",
+          name: "Router (Linksys)",
+          total: 1,
+          good: 1,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 207,
+          lab: "Lab Vision",
+          name: "Meja",
+          total: 43,
+          good: 43,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+        {
+          id: 208,
+          lab: "Lab Vision",
+          name: "Bangku",
+          total: 45,
+          good: 45,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+
+        // LAB PEMROGRAMAN 1
+        {
+          id: 301,
+          lab: "Lab Pemrograman 1",
+          name: "PC Unit",
+          total: 42,
+          good: 42,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 302,
+          lab: "Lab Pemrograman 1",
+          name: "Monitor",
+          total: 42,
+          good: 42,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 303,
+          lab: "Lab Pemrograman 1",
+          name: "Mouse",
+          total: 42,
+          good: 36,
+          bad: 6,
+          supplier: "PT. Teknologi Nusantara",
+        }, // total 42, cuma ada 36
+        {
+          id: 304,
+          lab: "Lab Pemrograman 1",
+          name: "PSU",
+          total: 42,
+          good: 42,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 305,
+          lab: "Lab Pemrograman 1",
+          name: "AC",
+          total: 6,
+          good: 6,
+          bad: 0,
+          supplier: "Digital Solution Medan",
+        },
+        {
+          id: 306,
+          lab: "Lab Pemrograman 1",
+          name: "Meja Kecil",
+          total: 15,
+          good: 15,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+        {
+          id: 307,
+          lab: "Lab Pemrograman 1",
+          name: "Meja Panjang",
+          total: 5,
+          good: 5,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+        {
+          id: 308,
+          lab: "Lab Pemrograman 1",
+          name: "Bangku/Kursi",
+          total: 43,
+          good: 43,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+
+        // LAB PEMROGRAMAN 2
+        {
+          id: 401,
+          lab: "Lab Pemrograman 2",
+          name: "PC Unit",
+          total: 43,
+          good: 43,
+          bad: 0,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 402,
+          lab: "Lab Pemrograman 2",
+          name: "Monitor",
+          total: 43,
+          good: 38,
+          bad: 5,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 403,
+          lab: "Lab Pemrograman 2",
+          name: "Keyboard",
+          total: 43,
+          good: 41,
+          bad: 2,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 404,
+          lab: "Lab Pemrograman 2",
+          name: "Mouse",
+          total: 43,
+          good: 36,
+          bad: 7,
+          supplier: "PT. Teknologi Nusantara",
+        },
+        {
+          id: 405,
+          lab: "Lab Pemrograman 2",
+          name: "AC",
+          total: 5,
+          good: 5,
+          bad: 0,
+          supplier: "Digital Solution Medan",
+        },
+        {
+          id: 406,
+          lab: "Lab Pemrograman 2",
+          name: "Kursi",
+          total: 47,
+          good: 47,
+          bad: 0,
+          supplier: "CV. Maju Jaya Meubel",
+        },
+      ];
+
+      function initData() {
+        if (!localStorage.getItem(DB_KEY_ITEMS))
+          localStorage.setItem(DB_KEY_ITEMS, JSON.stringify(rawItems));
+        if (!localStorage.getItem(DB_KEY_SUPPLIERS))
+          localStorage.setItem(DB_KEY_SUPPLIERS, JSON.stringify(rawSuppliers));
+        if (!localStorage.getItem(DB_KEY_PENDING))
+          localStorage.setItem(DB_KEY_PENDING, JSON.stringify([]));
+        if (!localStorage.getItem(DB_KEY_FINALS))
+          localStorage.setItem(DB_KEY_FINALS, JSON.stringify([]));
+      }
+
+      const getDB = (key) => JSON.parse(localStorage.getItem(key)) || [];
+      const saveDB = (key, data) =>
+        localStorage.setItem(key, JSON.stringify(data));
+
+      let currentUser = null;
+
+      // --- AUTH LOGIC ---
+      function handleLogin() {
+        const u = document.getElementById("login-username").value;
+        const p = document.getElementById("login-password").value;
+
+        const users = [
+          {
+            name: "A. Mika Ilhami",
+            role: "Laboran",
+            user: "laboran",
+            pass: "123",
+          },
+          {
+            name: "Haddad Alwi Situmorang",
+            role: "Asisten Laboratorium",
+            user: "asisten",
+            pass: "123",
+          },
+          {
+            name: "Abdul Halim Hasugian",
+            role: "Kepala Laboratorium",
+            user: "kepala",
+            pass: "123",
+          },
+          {
+            name: "Silvi Joya",
+            role: "Admin Fakultas",
+            user: "admin",
+            pass: "123",
+          },
+        ];
+
+        const found = users.find((x) => x.user === u && x.pass === p);
+        if (found) {
+          currentUser = found;
+          document.getElementById("login-page").classList.add("hidden");
+          document.getElementById("main-app").classList.remove("hidden");
+          renderUI();
+          showPage("dashboard");
+        } else {
+          Swal.fire("Gagal", "Username atau Password salah.", "error");
+        }
+      }
+
+      function logout() {
+        currentUser = null;
+        document.getElementById("main-app").classList.add("hidden");
+        document.getElementById("login-page").classList.remove("hidden");
+      }
+
+      // --- UI LOGIC ---
+      function renderUI() {
+        document.getElementById("display-name").innerText = currentUser.name;
+        document.getElementById("display-role").innerText = currentUser.role;
+        document.getElementById("dash-user").innerText = currentUser.name;
+        document.getElementById("initials").innerText =
+          currentUser.name.charAt(0);
+
+        // Access Control
+        document
+          .getElementById("menu-input")
+          .classList.toggle(
+            "hidden",
+            currentUser.role !== "Asisten Laboratorium"
+          );
+        document
+          .getElementById("menu-validate")
+          .classList.toggle("hidden", currentUser.role !== "Laboran");
+        document
+          .getElementById("menu-report")
+          .classList.toggle(
+            "hidden",
+            !["Kepala Laboratorium", "Admin Fakultas"].includes(
+              currentUser.role
+            )
+          );
+      }
+
+      function showPage(pageId, el) {
+        document
+          .querySelectorAll("#content-area > div")
+          .forEach((d) => d.classList.add("hidden"));
+        document.getElementById("view-" + pageId).classList.remove("hidden");
+        document.getElementById("page-title").innerText = pageId
+          .replace("-", " ")
+          .toUpperCase();
+
+        if (el) {
+          document
+            .querySelectorAll(".nav-item")
+            .forEach((n) => n.classList.remove("active"));
+          el.classList.add("active");
+        }
+
+        if (pageId === "dashboard") updateDashboard();
+        if (pageId === "data-barang") filterLab("Semua");
+        if (pageId === "data-supplier") renderSuppliers();
+        if (pageId === "laboran-inbox") renderInbox();
+        if (pageId === "kepala-report") renderFinals();
+      }
+
+      function updateDashboard() {
+        const items = getDB(DB_KEY_ITEMS);
+        const finals = getDB(DB_KEY_FINALS);
+        const bad = items.reduce((acc, curr) => acc + curr.bad, 0);
+
+        document.getElementById("dash-items").innerText = items.length;
+        document.getElementById("dash-bad").innerText = bad;
+        document.getElementById("dash-finals").innerText = finals.length;
+      }
+
+      // --- INVENTARIS LOGIC ---
+      function filterLab(labName) {
+        const items = getDB(DB_KEY_ITEMS);
+        const tbody = document.getElementById("table-barang");
+        tbody.innerHTML = "";
+
+        const filtered =
+          labName === "Semua" ? items : items.filter((i) => i.lab === labName);
+
+        filtered.forEach((item) => {
+          const statusColor =
+            item.bad > 0 ? "text-red-500" : "text-emerald-500";
+          tbody.innerHTML += `
+                    <tr>
+                        <td class="p-6 font-bold text-slate-800">${item.name}</td>
+                        <td class="p-6 text-slate-500 text-xs">${item.lab}</td>
+                        <td class="p-6 text-center font-black">${item.total}</td>
+                        <td class="p-6 text-center">
+                            <span class="text-xs font-bold ${statusColor}">${item.good} Baik / ${item.bad} Rusak</span>
+                        </td>
+                        <td class="p-6 text-slate-400 text-xs italic">${item.supplier}</td>
+                    </tr>
+                `;
+        });
+      }
+
+      // --- SUPPLIER LOGIC ---
+      function renderSuppliers() {
+        const suppliers = getDB(DB_KEY_SUPPLIERS);
+        const container = document.getElementById("supplier-container");
+        container.innerHTML = "";
+
+        suppliers.forEach((s) => {
+          container.innerHTML += `
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-blue-500">
+                        <p class="text-[9px] font-black text-blue-500 uppercase mb-1">${s.category}</p>
+                        <h4 class="font-black text-slate-800 mb-4">${s.name}</h4>
+                        <div class="flex items-center gap-3 text-slate-500 text-xs bg-slate-50 p-3 rounded-xl">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>${s.contact}</span>
+                        </div>
+                    </div>
+                `;
+        });
+      }
+
+      // --- WORKFLOW LOGIC ---
+      function renderCheckList() {
+        const lab = document.getElementById("select-lab-check").value;
+        if (!lab) return;
+        const items = getDB(DB_KEY_ITEMS).filter((i) => i.lab === lab);
+        const tbody = document.getElementById("tbody-check");
+        tbody.innerHTML = "";
+        document
+          .getElementById("check-list-container")
+          .classList.remove("hidden");
+
+        items.forEach((item) => {
+          tbody.innerHTML += `
+                    <tr data-item-id="${item.id}">
+                        <td class="p-4 font-bold text-slate-700">${item.name}</td>
+                        <td class="p-4 text-center">
+                            <input type="number" value="${item.total}" class="w-16 border rounded p-1 text-center font-bold">
+                        </td>
+                        <td class="p-4">
+                            <select class="w-full text-[10px] font-black uppercase border rounded p-2">
+                                <option value="Lengkap">Lengkap / Normal</option>
+                                <option value="Ada Rusak">Ada Rusak</option>
+                                <option value="Kurang">Barang Kurang</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+        });
+      }
+
+      function submitDailyCheck() {
+        const lab = document.getElementById("select-lab-check").value;
+        const report = {
+          id: Date.now(),
+          lab: lab,
+          reporter: currentUser.name,
+          date: new Date().toISOString(),
+          status: "Menunggu Validasi Laboran",
+        };
+
+        const pending = getDB(DB_KEY_PENDING);
+        pending.push(report);
+        saveDB(DB_KEY_PENDING, pending);
+
+        Swal.fire(
+          "Berhasil",
+          "Laporan monitoring harian telah dikirim ke Laboran.",
+          "success"
+        );
+        showPage("dashboard");
+      }
+
+      function renderInbox() {
+        const pending = getDB(DB_KEY_PENDING);
+        const container = document.getElementById("inbox-container");
+        container.innerHTML = "";
+
+        if (pending.length === 0) {
+          container.innerHTML =
+            '<div class="col-span-full py-12 text-center text-slate-400 font-bold">Belum ada laporan masuk hari ini.</div>';
+          return;
+        }
+
+        pending.forEach((rpt) => {
+          container.innerHTML += `
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-black text-slate-800">${
+                                  rpt.lab
+                                }</h4>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase">${new Date(
+                                  rpt.date
+                                ).toLocaleString("id-ID")}</p>
+                            </div>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[9px] font-black uppercase tracking-tighter">Validasi</span>
+                        </div>
+                        <p class="text-xs text-slate-600 mb-6">Dilaporkan oleh: <span class="font-bold">${
+                          rpt.reporter
+                        }</span></p>
+                        <button onclick="approveReport(${
+                          rpt.id
+                        })" class="w-full bg-emerald-600 text-white py-3 rounded-xl text-xs font-bold uppercase hover:bg-emerald-700 transition-all">Sahkan Laporan</button>
+                    </div>
+                `;
+        });
+      }
+
+      function approveReport(id) {
+        let pending = getDB(DB_KEY_PENDING);
+        let finals = getDB(DB_KEY_FINALS);
+        const rpt = pending.find((r) => r.id === id);
+
+        rpt.validator = currentUser.name;
+        rpt.validatedAt = new Date().toISOString();
+        rpt.status = "Final";
+
+        finals.push(rpt);
+        pending = pending.filter((r) => r.id !== id);
+
+        saveDB(DB_KEY_PENDING, pending);
+        saveDB(DB_KEY_FINALS, finals);
+
+        Swal.fire(
+          "Laporan Disahkan",
+          "Laporan berhasil divalidasi dan diarsipkan.",
+          "success"
+        );
+        renderInbox();
+        updateDashboard();
+      }
+
+      function renderFinals() {
+        const finals = getDB(DB_KEY_FINALS);
+        const tbody = document.getElementById("tbody-finals");
+        tbody.innerHTML = "";
+
+        finals.reverse().forEach((rpt) => {
+          tbody.innerHTML += `
+                    <tr>
+                        <td class="p-6 text-xs font-bold">${new Date(
+                          rpt.validatedAt
+                        ).toLocaleDateString("id-ID")}</td>
+                        <td class="p-6 font-bold text-slate-800 text-xs">${
+                          rpt.lab
+                        }</td>
+                        <td class="p-6 text-slate-500 text-xs">${
+                          rpt.reporter
+                        }</td>
+                        <td class="p-6 text-center">
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[9px] font-black uppercase">Terverifikasi</span>
+                        </td>
+                    </tr>
+                `;
+        });
+      }
+
+      window.onload = initData;
+    </script>
+  </body>
+</html>
